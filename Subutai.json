@@ -1,0 +1,153 @@
+{
+  "name": "${environmentName}",
+  "description": "Apache Kafka",
+  "version": "0.0.1",
+  "author": "https://github.com/niclash",
+  "ssh-key": "niclas",
+  "containers": [
+    {
+      "hostname": "kafka",
+      "template": "debian-stretch",
+      "peer-criteria": "SRV-GROUP",
+      "peer-layout": "kafka",
+      "size": "${containerSize}",
+      "port-mapping": [
+      ]
+    }
+  ],
+  "peer-layouts": [
+    {
+      "name": "kafka",
+      "peer-count": "${instances}",
+      "container-per-peer": "1"
+    }
+  ],
+  "peer-criteria": [
+    {
+      "name": "SRV-GROUP",
+      "max-price": "25"
+    }
+  ],
+  "ansible-configuration": {
+    "source-url": "https://github.com/niclash/subutai-bp-kafka/archive/master.zip",
+    "ansible-playbook": "ansible.yml",
+    "extra-vars": [
+      {
+        "key": "kafka_config_dir",
+        "value": "/etc/kafka"
+      },
+      {
+        "key": "kafka_log_dir",
+        "value": "/var/log/kafka"
+      },
+      {
+        "key": "kafka_data_dir",
+        "value": "/var/lib/kafka"
+      },
+      {
+        "key": "kafka_logs_dir",
+        "value": "/var/lib/kafka/commitlogs"
+      },
+      {
+        "key": "kafka_boot_servers",
+        "value": "${boot_servers}"
+      },
+      {
+        "key": "kafka_cluster_name",
+        "value": "${cluster_name}"
+      },
+      {
+        "key": "kafka_retention",
+        "value": "${retention}"
+      },
+      {
+        "key": "kafka_version",
+        "value": "2.2.0"
+      },
+      {
+        "key": "scala_version",
+        "value": "2.12"
+      },
+      {
+        "key": "kafka_url",
+        "value": "http://www-eu.apache.org/dist/kafka/{{kafka_version}}/kafka_{{scala_version}}-{{kafka_version}}.tgz"
+      },
+      {
+        "key": "kafka_dir",
+        "value": "/usr/local/lib/kafka"
+      },
+      {
+        "key": "kafka_config_dir",
+        "value": "/etc/kafka"
+      },
+      {
+        "key": "kafka_log_dir",
+        "value": "/var/log/kafka"
+      },
+      {
+        "key": "kafka_data_dir",
+        "value": "/var/lib/kafka/data"
+      },
+      {
+        "key": "kafka_logs_dir",
+        "value": "/var/lib/kafka/commitlogs"
+      },
+      {
+        "key": "zookeeper_hosts",
+        "value": "${zookeeper_hosts}"
+      }
+    ],
+    "groups": [
+      {
+        "name": "kafka",
+        "hostnames": [
+          "kafka"
+        ]
+      }
+    ]
+  },
+  "user-variables": {
+    "environmentName": {
+      "description": "The name of the environment to create.",
+      "type": "string",
+      "validation": "[a-zA-Z_][a-zA-Z0-9_]*",
+      "default": "kafka"
+    },
+    "containerSize": {
+      "description": "Container Size",
+      "type": "enum",
+      "default": "LARGE",
+      "validation": "TINY,SMALL,MEDIUM,LARGE,HUGE"
+    },
+    "instances": {
+      "description": "Number of Zookeeper instances to be run. One instance per peer, and for consistency levels an odd number must be chosen. Allowed are one of 1,3,5,7,9",
+      "type": "int",
+      "validation": "[123455789][0123455789]*",
+      "default": "3"
+    },
+    "boot_servers": {
+      "description": "Kafka instances reachable by all cluster members to obtain the cluster configuration data from.",
+      "type": "string",
+      "validation": ".*",
+      "default": "kafka1.sensetif.net:9092,kafka2.sensetif.net:9092,kafka3.sensetif.net:9092"
+    },
+    "cluster_name": {
+      "description": "Name of the Kafka cluster.",
+      "type": "string",
+      "validation": ".*",
+      "default": "kafka-cluster"
+    },
+    "retention": {
+      "description": "The data retention time (in hours) after which old data is removed from queues.",
+      "type": "int",
+      "validation": "[0-9]*",
+      "default": "8760"
+    },
+    "zookeeper_hosts": {
+      "description": "Host and ports of the Zookeeper cluster to use for this Kafka cluster.",
+      "type": "string",
+      "validation": ".*",
+      "default": "localhost:2181"
+    }
+  }
+}
