@@ -32,13 +32,22 @@
     "source-url": "https://github.com/niclash/subutai-bp-kafka/archive/master.zip",
     "ansible-playbook": "ansible.yml",
     "extra-vars": [
-      "kafka_config_dir": "/etc/kafka"
-      "kafka_log_dir": "/var/log/kafka"
-      "kafka_data_dir": "/var/lib/kafka"
-      "kafka_logs_dir": "/var/lib/kafka/commitlogs"
-      "kafka_boot_servers": "${boot_servers}"
-      "kafka_cluster_name": "${cluster_name}"
-      "kafka_retention": "${retention}"
+      "kafka_config_dir": "/etc/kafka",
+      "kafka_log_dir": "/var/log/kafka",
+      "kafka_data_dir": "/var/lib/kafka",
+      "kafka_logs_dir": "/var/lib/kafka/commitlogs",
+      "kafka_boot_servers": "${boot_servers}",
+      "kafka_cluster_name": "${cluster_name}",
+      "kafka_retention": "${retention}",
+      "kafka_version": "2.2.0",
+      "scala_version": "2.12",
+      "kafka_url": "http://www-eu.apache.org/dist/kafka/{{kafka_version}}/kafka_{{scala_version}}-{{kafka_version}}.tgz",
+      "kafka_dir": "/usr/local/lib/kafka",
+      "kafka_config_dir": "/etc/kafka",
+      "kafka_log_dir": "/var/log/kafka",
+      "kafka_data_dir": "/var/lib/kafka/data",
+      "kafka_logs_dir": "/var/lib/kafka/commitlogs",
+      "zookeeper_hosts": "${zookeeper_hosts}"
     ],
     "groups": [
       {
@@ -85,6 +94,12 @@
       "type": "int",
       "validation": "[0-9]*",
       "default": "8760"
+    },
+    "zookeeper_hosts": {
+      "description": "Host and ports of the Zookeeper cluster to use for this Kafka cluster.",
+      "type": "string",
+      "validation": ".*",
+      "default": "localhost:2181"
     }
   }
 }
