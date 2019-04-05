@@ -1,0 +1,76 @@
+---
+- group: name=kafka system=yes
+- user: name=kafka group=kafka system=yes
+
+- name: Create {{kafka_dir}}
+  file:
+    path: "{{kafka_dir}}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Install Kafka into {{kafka_dir}}
+  unarchive:
+    src: "{{kafka_url}}"
+    dest: "{{kafka_dir}}"
+    remote_src: True
+    extra_opts: [ "--strip-components=1" ]
+  notify:
+    - restart kafka
+
+- name: Create directories.
+  file: path={{item}} state=directory owner=kafka group=kafka
+  with_items:
+    - "{{kafka_config_dir}}"
+    - "{{kafka_log_dir}}"
+    - "{{kafka_data_dir}}"
+    - "{{kafka_logs_dir}}"
+    - "{{kafka_logs_dir_1}}"
+    - "{{kafka_logs_dir_2}}"
+
+- name: Create rsyslog config.
+  template: src=rsyslog.j2 dest=/etc/rsyslog.d/kafka.conf
+  notify:
+    - restart rsyslog
+
+- name: Systemd script.
+  template: src=kafka.service.j2 dest=/etc/systemd/system/kafka.service
+  notify:
+    - restart kafka
+
+- name: Write configuration files.
+  template: src={{item}}.j2 dest={{kafka_config_dir}}/{{item}} owner=kafka group=kafka
+  with_items:
+    - "connect-distributed.properties"
+    - "connect-log4j.properties"
+    - "connect-console-sink.properties"
+    - "connect-console-source.properties"
+    - "connect-file-sink.properties"
+    - "connect-file-source.properties"
+    - "consumer.properties"
+    - "log4j.properties"
+    - "kafka.cfg"
+    - "producer.properties"
+    - "server.properties"
+    - "tools-log4j.properties"
+  notify:
+    - restart kafka
+
+- name: Remove {{kafka_dir}}/config
+  file: path={{kafka_dir}}/config state=absent
+
+- name: Change ownership of directories.
+  file: path={{item}} state=directory owner=kafka group=kafka recurse=yes
+  with_items:
+    - "{{kafka_config_dir}}"
+    - "{{kafka_log_dir}}"
+    - "{{kafka_data_dir}}"
+    - "{{kafka_logs_dir}}"
+    - "{{kafka_logs_dir_1}}"
+    - "{{kafka_logs_dir_2}}"
+
+- name: Start kafka
+  service: name=kafka state=started enabled=yes
+  notify:
+    - restart kafka
