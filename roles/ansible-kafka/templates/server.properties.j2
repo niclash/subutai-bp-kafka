@@ -4,7 +4,7 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-broker.id={{ int( ansible_hostname.split('-')[1], 16 ) }}
+broker.id={{ ansible_hostname.split('-')[1] | int( base=16 ) }}
 
 # Switch to enable topic deletion or not, default value is false
 delete.topic.enable=true
@@ -43,8 +43,7 @@ socket.request.max.bytes=104857600
 ############################# Log Basics #############################
 
 # A comma seperated list of directories under which to store log files
-# {{kafka_logs_dir_1}} is the primary disk, and {{kafka_logs_dir_2}} is secondary disk. Multiple heads improves performance
-log.dirs={{kafka_logs_dir_1}}, {{kafka_logs_dir_2}}
+log.dirs={{kafka_logs_dir}}
 
 # The default number of log partitions per topic. More partitions allow greater
 # parallelism for consumption, but this will also result in more files across

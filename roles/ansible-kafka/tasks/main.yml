@@ -26,8 +26,6 @@
     - "{{kafka_log_dir}}"
     - "{{kafka_data_dir}}"
     - "{{kafka_logs_dir}}"
-    - "{{kafka_logs_dir_1}}"
-    - "{{kafka_logs_dir_2}}"
 
 - name: Create rsyslog config.
   template: src=rsyslog.j2 dest=/etc/rsyslog.d/kafka.conf
@@ -67,8 +65,6 @@
     - "{{kafka_log_dir}}"
     - "{{kafka_data_dir}}"
     - "{{kafka_logs_dir}}"
-    - "{{kafka_logs_dir_1}}"
-    - "{{kafka_logs_dir_2}}"
 
 - name: Start kafka
   service: name=kafka state=started enabled=yes
