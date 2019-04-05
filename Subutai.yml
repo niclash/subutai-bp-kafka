@@ -32,30 +32,13 @@
     "source-url": "https://github.com/niclash/subutai-bp-kafka/archive/master.zip",
     "ansible-playbook": "ansible.yml",
     "extra-vars": [
-      {
-        "key": "tick_time",
-        "value": "${tickTime}"
-      },
-      {
-        "key": "init_limit",
-        "value": "${initLimit}"
-      },
-      {
-        "key": "sync_limit",
-        "value": "${syncLimit}"
-      },
-      {
-        "key": "pre_alloc_size",
-        "value": "${preAllocSize}"
-      },
-      {
-        "key": "global_outstanding_limit",
-        "value": "${globalOutstandingLimit}"
-      },
-      {
-        "key": "snap_count",
-        "value": "${snapCount}"
-      }
+      "kafka_config_dir": "/etc/kafka"
+      "kafka_log_dir": "/var/log/kafka"
+      "kafka_data_dir": "/var/lib/kafka"
+      "kafka_logs_dir": "/var/lib/kafka/commitlogs"
+      "kafka_boot_servers": "${boot_servers}"
+      "kafka_cluster_name": "${cluster_name}"
+      "kafka_retention": "${retention}"
     ],
     "groups": [
       {
@@ -84,6 +67,24 @@
       "type": "int",
       "validation": "[123455789][0123455789]*",
       "default": "3"
+    },
+    "boot_servers":  {
+      "description": "Kafka instances reachable by all cluster members to obtain the cluster configuration data from.",
+      "type": "string",
+      "validation": ".*"
+      "default": "kafka1.sensetif.net:9092,kafka2.sensetif.net:9092,kafka3.sensetif.net:9092"
+    },
+    "cluster_name":  {
+      "description": "Name of the Kafka cluster.",
+      "type": "string",
+      "validation": ".*",
+      "default": "kafka-cluster"
+    }
+    "retention":  {
+      "description": "The data retention time (in hours) after which old data is removed from queues."
+      "type": "int",
+      "validation": "[0-9]*",
+      "default": "8760"
     }
   }
 }
