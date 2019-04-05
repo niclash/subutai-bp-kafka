@@ -1,0 +1,11 @@
+---
+- name: restart kafka
+  shell: /bin/systemctl daemon-reload
+  notify: restart kafka 2
+
+- name: restart kafka 2
+  service: name=kafka state=restarted
+  notify: restart rsyslog
+
+- name: restart rsyslog
+  service: name=rsyslog state=restarted
