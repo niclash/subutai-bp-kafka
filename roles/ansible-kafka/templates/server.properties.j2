@@ -4,7 +4,7 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-broker.id={{ fromHEx( ansible_hostname.split('-')[1] ) }}
+broker.id={% fromHex( ansible_hostname.split('-')[1] ) %}
 
 # Switch to enable topic deletion or not, default value is false
 delete.topic.enable=true
@@ -101,7 +101,6 @@ log.retention.check.interval.ms=3000000
 # server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
 # You can also append an optional chroot string to the urls to specify the
 # root directory for all kafka znodes.
-# zookeeper.connect={% for server in groups['zookeeper'] %}{% if loop.index > 1 %},{% endif %}{{ hostvars[server].inventory_hostname }}:2181{% endfor %}
 zookeeper.connect={{zookeeper_hosts}}
 
 # Timeout in ms for connecting to zookeeper
