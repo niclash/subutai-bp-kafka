@@ -2,7 +2,8 @@
 # Zookeeper connection string
 # comma separated host:port pairs, each corresponding to a zk
 # server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"
-zookeeper.connect={% for server in groups['zookeeper'] %}{% if loop.index > 1 %},{% endif %}{{ hostvars[server].inventory_hostname }}:2181{% endfor %}
+# zookeeper.connect={% for server in groups['zookeeper'] %}{% if loop.index > 1 %},{% endif %}{{ hostvars[server].inventory_hostname }}:2181{% endfor %}
+zookeeper.connect={{zookeeper_hosts}}
 
 # timeout in ms for connecting to zookeeper
 zookeeper.connection.timeout.ms=6000
