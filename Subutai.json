@@ -1,7 +1,7 @@
 {
   "name": "${EnvironmentName}",
   "description": "Apache Kafka",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
