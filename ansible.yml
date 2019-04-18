@@ -8,5 +8,5 @@
       kafka_data_dir: "/var/lib/kafka"
       kafka_logs_dir: "{{kafka_data_dir}}/commitlogs"
       kafka_boot_servers: "localhost:9092"
-      kafka_cluster_name: "sensetif"
+      kafka_cluster_name: "subutai"
       kafka_retention: 2160  # 90 days
