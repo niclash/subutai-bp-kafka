@@ -39,10 +39,6 @@
     "ansible-playbook": "ansible.yml",
     "extra-vars": [
       {
-        "key": "kafka_boot_servers",
-        "value": "${BootServers}"
-      },
-      {
         "key": "kafka_cluster_name",
         "value": "${ClusterName}"
       },
@@ -88,12 +84,6 @@
       "type": "domain",
       "validation": ".*",
       "default": "kafka.envs.subut.ai"
-    },
-    "BootServers": {
-      "description": "Kafka instances reachable by all cluster members to obtain the cluster configuration data from.",
-      "type": "string",
-      "validation": ".*",
-      "default": "kafka1.sensetif.net:9092,kafka2.sensetif.net:9092,kafka3.sensetif.net:9092"
     },
     "ClusterName": {
       "description": "Name of the Kafka cluster.",
