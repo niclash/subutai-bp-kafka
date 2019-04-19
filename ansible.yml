@@ -22,7 +22,7 @@
 
   - name: Load packages
     apt:
-      name: {{item}}
+      name: "{{item}}"
       allow_unauthenticated: yes
     with_items:
       - openjdk-11-jre-headless
