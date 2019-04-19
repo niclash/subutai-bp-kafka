@@ -1,6 +1,34 @@
 ---
-- hosts: [kafka]
+- hosts: all
   become: yes
+  gather_facts: false
+  remote_user: root
+  tasks:
+
+  - name: Ensure python-minimal is available
+    apt:
+      name: python-minimal
+      allow_unauthenticated: yes
+
+  - name: Ensure python-apt is available
+    apt:
+      name: python-apt
+      allow_unauthenticated: yes
+
+  - name: Ensure sudo is available
+    apt:
+      name: sudo
+      allow_unauthenticated: yes
+
+  - name: Load packages
+    apt:
+      name: {{item}}
+      allow_unauthenticated: yes
+    with_items:
+      - openjdk-11-jre-headless
+      - scala
+
+- hosts: kafka
   roles:
     - role: 'ansible-kafka'
       kafka_config_dir: "/etc/kafka"
