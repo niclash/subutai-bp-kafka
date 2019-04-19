@@ -4,3 +4,5 @@ KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file://{{kafka_config_dir}}/log4j.proper
 KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 
 LOG_DIR={{kafka_log_dir}}
+
+KAFKA_OPTS="-Djava.net.preferIPv4Stack=True"
