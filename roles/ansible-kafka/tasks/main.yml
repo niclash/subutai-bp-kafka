@@ -67,6 +67,6 @@
     - "{{kafka_logs_dir}}"
 
 - name: Start kafka
-  service: name=kafka state=started enabled=yes
+  service: name=kafka.service state=started enabled=yes
   notify:
     - restart kafka

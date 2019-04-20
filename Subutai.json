@@ -74,16 +74,16 @@
       "validation": "TINY,SMALL,MEDIUM,LARGE,HUGE"
     },
     "Instances": {
-      "description": "Number of Zookeeper instances to be run. One instance per peer, and for consistency levels an odd number must be chosen. Allowed are one of 1,3,5,7,9",
+      "description": "Number of Kafka instances to be run. One instance per peer, 1-99 instances",
       "type": "int",
-      "validation": "[123455789][0123455789]*",
+      "validation": "[123456789][0123456789]*",
       "default": "3"
     },
     "DomainName": {
       "description": "Domain name of the publicly reachable Kafka endpoint.",
       "type": "domain",
       "validation": ".*",
-      "default": "kafka.envs.subut.ai"
+      "default": ""
     },
     "ClusterName": {
       "description": "Name of the Kafka cluster.",
